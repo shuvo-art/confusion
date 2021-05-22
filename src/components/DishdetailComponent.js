@@ -7,9 +7,6 @@ class DishDetail extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            
-        }
     }
 
     renderDish(clickedDish) {
@@ -45,7 +42,7 @@ class DishDetail extends Component {
                                             <footer className="blockquote-footer"> 
                                                 <li className="list-inline-item">{cmt.author}</li>
                                                 <li className="list-inline-item">,</li>
-                                                <li className="list-inline-item">{cmt.date}</li>
+                                                <li className="list-inline-item">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(cmt.date)))}</li>
                                             </footer>    
                                         </ul>
                                     </p>
@@ -76,10 +73,10 @@ class DishDetail extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                        {this.renderDish(this.props.selectedDish)}
+                        {this.renderDish(this.props.dish)}
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        {this.renderComments(this.props.selectedDish)}
+                        {this.renderComments(this.props.dish)}
                     </div>
                 </div>
             </div>
