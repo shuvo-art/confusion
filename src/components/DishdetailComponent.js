@@ -1,62 +1,45 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
-
 class DishDetail extends Component {
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
+        console.log('Dishdetail Component componentDidMount is invoked');
     }
 
-    renderDish(clickedDish) {
-        if (clickedDish != null){
-            return(
+    componentDidUpdate() {
+        console.log('Dishdetail Component componentDidUpdate is invoked');
+    }
+
+    renderDish(dish) {
+        return(
+            <div className="col-12 col-md-5 m-1">
                 <Card>
-                    <CardImg width="100%" src={clickedDish.image} alt={clickedDish.name} />
+                    <CardImg top src={dish.image} alt={dish.name} />
                     <CardBody>
-                        <CardTitle>{clickedDish.name}</CardTitle>
-                        <CardText>{clickedDish.description}</CardText>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
                     </CardBody>
                 </Card>
-            );
-        }
-        else{
-            return(
-                <div></div>
-            );
-        }
+            </div>
+        );
     }
 
-    renderComments(commentedDish) {
-        if(commentedDish != null) {
-            const allComment = commentedDish.comments.map((cmt) => {
-                return (
-                    <div key={cmt.id} className="col-12 m-1">
-                        <ul className="list-unstyled">
-                            <li>
-                                <blockquote className="blockquote">
-                                    <p className="mb-1">{cmt.comment}</p>
-                                    <p className="m-2">
-                                        <ul className="list-inline">
-                                            <footer className="blockquote-footer"> 
-                                                <li className="list-inline-item">{cmt.author}</li>
-                                                <li className="list-inline-item">,</li>
-                                                <li className="list-inline-item">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(cmt.date)))}</li>
-                                            </footer>    
-                                        </ul>
-                                    </p>
-                               </blockquote>
-                           </li>
-                       </ul>  
-                   </div>
-                );
-            });
-
-            return (
-                <div>
+    renderComments(comments) {
+        if (comments != null) {
+            return(
+                <div className="col-12 col-md-5 m-1">
                     <h4>Comments</h4>
-                    {allComment}
+                    <ul className="list-unstyled">
+                        {comments.map((comment) => {
+                            return(
+                                <li key={comment.id}>
+                                    <p>{comment.comment}</p>
+                                    <p>-- {comment.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} </p>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
             );
         }
@@ -68,20 +51,26 @@ class DishDetail extends Component {
     }
 
     render() {
-        console.log(this.props);
-        return(
-            <div className="container">
-                <div className="row">
-                    <div className="col-12 col-md-5 m-1">
+
+        console.log('Dishdetail Component render is invoked');
+        
+        if (this.props.dish != null) {
+            return(
+                <div className="container">
+                    <div className="row">
                         {this.renderDish(this.props.dish)}
-                    </div>
-                    <div className="col-12 col-md-5 m-1">
-                        {this.renderComments(this.props.dish)}
+                        {this.renderComments(this.props.dish.comments)}
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        else {
+            return(
+                <div></div>
+            );
+        }
     }
+      
 }
 
 export default DishDetail;
