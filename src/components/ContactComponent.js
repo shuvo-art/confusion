@@ -49,7 +49,7 @@ class Contact extends Component {
             touched: { ...this.state.touched, [field]: true }
         });
     }
-
+    
     validate(firstname, lastname, telnum, email) {
         const errors = {
             firstname: '',
